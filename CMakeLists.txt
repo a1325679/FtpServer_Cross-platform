@@ -39,6 +39,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/_include)
 
 if(WIN32)
 	include_directories(${PROJECT_SOURCE_DIR}/thirdpart/libevent/include)
+	link_directories(${PROJECT_SOURCE_DIR}/lib/libevent)
 endif()
 # 设置项目库文件搜索路径 -L
 link_directories(${PROJECT_SOURCE_DIR}/lib)
