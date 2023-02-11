@@ -34,8 +34,6 @@ endif()
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 # 设置项目库文件输出的路径
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
-# 设置项目编译头文件搜索路径 -I
-include_directories(${PROJECT_SOURCE_DIR}/src/_include)
 
 if(WIN32)
 	include_directories(${PROJECT_SOURCE_DIR}/thirdpart/libevent/include)
