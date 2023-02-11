@@ -6,6 +6,11 @@
 #include "func.h"
 using namespace std;
 
+#ifdef _WIN32
+#define strcasecmp _stricmp
+#define strncasecmp _strnicmp 
+#endif
+
 Config *Config::m_instance = nullptr;
 
 Config::Config()

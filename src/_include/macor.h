@@ -6,7 +6,7 @@
 #define EMERG 1
 #define ALERT 2
 #define CRIT 3
-#define ERROR 4
+#define ERRORS 4
 #define WARN 5
 #define NOTICE 6
 #define INFO 7
