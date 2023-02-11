@@ -1,6 +1,6 @@
 #include <event2/bufferevent.h>
 #include <event2/event.h>
-#include <event2/listener.h>//libevent头文件
+#include <event2/listener.h> //libevent头文件
 #include <string.h>
 #include <iostream>
 #include <event2/thread.h>
@@ -19,9 +19,12 @@ int main()
 {
 	// pool.setMode(PoolMode::MODE_CACHED);
 	// 创建libevent的上下文
-	WSADATA wsa;
-	WSAStartup(MAKEWORD(2, 2), &wsa);
-	evthread_use_windows_threads();
+	#if _WIN32
+		WSADATA wsa;
+		WSAStartup(MAKEWORD(2, 2), &wsa);
+		evthread_use_windows_threads();
+	#endif
+	
 	event_base *base = event_base_new();
 	if (base)
 	{
