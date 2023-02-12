@@ -3,12 +3,15 @@ aux_source_directory(. SRC_LIST)
 
 # 指定生成可执行文件
 add_executable(FtpServer ${SRC_LIST} 
+${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_factory.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_task.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_user.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_server_cmd.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../misc/log/log.cpp
-${CMAKE_CURRENT_SOURCE_DIR}/../misc/readconf/func.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../misc/readconf/read_conf.cpp
 )
 # 指定可执行文件链接时需要依赖的库文件
-target_link_libraries(FtpServer event pthread)
+target_link_libraries(FtpServer event pthread threadpool)
 if(WIN32)
 	target_link_libraries(FtpServer Iphlpapi.lib event_extra event_core ws2_32)
 endif()

@@ -10,25 +10,24 @@
 #include "log.h"
 #include "read_conf.h"
 #include "macor.h"
-
+#include "ftp_factory.h"
+#include "global.h"
 using namespace std;
 
 #define SPORT 8080
-
+ThreadPool pool;
 void listen_cb(struct evconnlistener *e, evutil_socket_t s, struct sockaddr *a, int socklen, void *arg)
 {
 	cout << "listen_cb" << endl;
-}
-void printfunc()
-{
-	for (int i = 0; i < 100;i++)
-	{
-		log(2, "test log print is available %s ", "hello world");
-		this_thread::sleep_for(1s);
-	}
+	event_base *base = (event_base *)arg;
+	Task *task = FtpFactory::Get()->CreateTask();
+	task->sock = s;
+	task->base = base;
+	task->Init();
 }
 int main()
 {
+	pool.start(3);
 // pool.setMode(PoolMode::MODE_CACHED);
 // 创建libevent的上下文
 #if _WIN32
@@ -44,14 +43,13 @@ int main()
 	}
 
 	Config *p_config = Config::GetInstance(); // 单例类
-	if (p_config->Load("conf.conf") == false)		// 把配置文件内容载入到内存
+	if (p_config->Load("conf.conf") == false) // 把配置文件内容载入到内存
 	{
 		std::cout << "XConfig Load Failed!" << std::endl;
 	}
 
 	MyLog::GetInstance()->Init("error.log");
-	thread t(&MyLog::PrintLogsThread, MyLog::GetInstance());
-	thread t2(&printfunc);
+	pool.submitTask(MyLog::PrintLogsThread, MyLog::GetInstance());
 	unsigned short port = p_config->GetIntDefault("ListenPort0", 9090);
 
 	// 监听端口
