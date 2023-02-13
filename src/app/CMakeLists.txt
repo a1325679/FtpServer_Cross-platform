@@ -7,6 +7,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_factory.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_task.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_user.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_server_cmd.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_pwd.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../misc/log/log.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../misc/readconf/read_conf.cpp
 )

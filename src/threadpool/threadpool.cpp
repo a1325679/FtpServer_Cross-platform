@@ -11,7 +11,7 @@
 #include <future>
 
 #include "threadpool.h"
-
+using namespace std;
 int Thread::generateId_ = 0;
 
 ThreadPool::ThreadPool()
@@ -79,7 +79,8 @@ void ThreadPool::start(int initThreadSize)
 		threads_[i]->start(); // 需要去执行一个线程函数
 		idleThreadSize_++;		// 记录初始空闲线程的数量
 	}
-	usleep(500 * 100);
+	this_thread::sleep_for(1s);
+	// usleep(500 * 100);
 }
 
 // 定义线程函数

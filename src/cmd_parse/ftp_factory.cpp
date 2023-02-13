@@ -1,6 +1,7 @@
 #include "ftp_factory.h"
 #include "ftp_server_cmd.h"
 #include "ftp_user.h"
+#include "ftp_pwd.h"
 // #include "XFtpSTOR.h"
 Task* FtpFactory::CreateTask()
 {
@@ -9,7 +10,7 @@ Task* FtpFactory::CreateTask()
 	//注册ftp消息处理对象
 	x->Reg("USER", new FtpUser());
 	// x->Reg("PORT", new FtpPORT());
-	// x->Reg("PWD", new FtpPWD());
+	x->Reg("PWD", new FtpPWD());
 	// x->Reg("LIST", new FtpLIST());
 	// x->Reg("CWD", new FtpCWD());
 	// x->Reg("CDUP", new FtpCUDP());
