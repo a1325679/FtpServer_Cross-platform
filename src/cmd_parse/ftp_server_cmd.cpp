@@ -5,6 +5,7 @@
 #include <string.h>
 #include <string>
 #include "threadpool.h"
+#include "global.h"
 using namespace std;
 // 注册命令处理对象 不需要考虑线程安全，调用时还未分发到线程
 void FtpServerCMD::Reg(std::string cmd, FtpTask *call)
@@ -75,8 +76,7 @@ static void ReadEvent(bufferevent* bev,void *arg)
 
 void FtpServerCMD::Read(struct bufferevent *bev)
 {
-	extern ThreadPool pool;
-	pool.submitTask(ReadEvent, bev,this);
+	g_pool.submitTask(ReadEvent, bev,this);
 }
 void FtpServerCMD::Event(struct bufferevent *bev, short what)
 {
