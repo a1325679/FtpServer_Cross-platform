@@ -42,7 +42,14 @@ void FtpList::Parse(std::string type, std::string msg)
   ResCMD("150 Here comes the directory listing.\r\n");
   // string listdata = "-rwxrwxrwx 1 root group 64463 Mar 14 09:53 101.jpg\r\n";
   string listdata = GetListData(cmdTask->rootDir + cmdTask->curDir);
-  // 3 数据通道发送
+// 3 数据通道发送
+#ifdef _WIN32
+  if (listdata.size() == 0)
+  {
+    listdata = "总用量 0";
+    listdata += "\r\n";
+  }
+#endif
   std::cout << "listdata : " << listdata << '\n';
   std::cout << listdata.size() << '\n';
   Send(listdata);

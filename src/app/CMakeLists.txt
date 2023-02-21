@@ -10,6 +10,10 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_server_cmd.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_pwd.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_port.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_list.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_cudp.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_cwd.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_mkd.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_rmd.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../misc/log/log.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../misc/readconf/read_conf.cpp
 )

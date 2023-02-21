@@ -4,6 +4,10 @@
 #include "ftp_pwd.h"
 #include "ftp_port.h"
 #include "ftp_list.h"
+#include "ftp_cudp.h"
+#include "ftp_cwd.h"
+#include "ftp_mkd.h"
+#include "ftp_rmd.h"
 Task* FtpFactory::CreateTask()
 {
 	FtpServerCMD* x = new FtpServerCMD();
@@ -13,10 +17,10 @@ Task* FtpFactory::CreateTask()
 	x->Reg("PORT", new FtpPort());
 	x->Reg("PWD", new FtpPWD());
 	x->Reg("LIST", new FtpList());
-	// x->Reg("CWD", new FtpCWD());
-	// x->Reg("CDUP", new FtpCUDP());
-	// x->Reg("MKD",new FtpMKD());
-	// x->Reg("RMD",new FtpRMD());
+	x->Reg("CWD", new FtpCwd());
+	x->Reg("CDUP", new FtpCudp());
+	x->Reg("MKD",new FtpMkd());
+	x->Reg("RMD",new FtpRmd());
 	// x->Reg("RETR", new FtpRETR());
 	// x->Reg("STOR", new XFtpSTOR());
 
