@@ -15,7 +15,7 @@
 using namespace std;
 
 #define SPORT 8080
-ThreadPool pool;
+ThreadPool g_pool;
 void listen_cb(struct evconnlistener *e, evutil_socket_t s, struct sockaddr *a, int socklen, void *arg)
 {
 	cout << "listen_cb" << endl;
@@ -27,7 +27,7 @@ void listen_cb(struct evconnlistener *e, evutil_socket_t s, struct sockaddr *a, 
 }
 int main()
 {
-	pool.start(3);
+	g_pool.start(3);
 // pool.setMode(PoolMode::MODE_CACHED);
 // 创建libevent的上下文
 #if _WIN32
@@ -49,7 +49,7 @@ int main()
 	}
 
 	MyLog::GetInstance()->Init("error.log");
-	pool.submitTask(MyLog::PrintLogsThread, MyLog::GetInstance());
+	g_pool.submitTask(MyLog::PrintLogsThread, MyLog::GetInstance());
 	unsigned short port = p_config->GetIntDefault("ListenPort0", 9090);
 
 	// 监听端口

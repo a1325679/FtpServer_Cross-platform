@@ -2,6 +2,9 @@
 #include <event2/event.h>
 #include <event2/bufferevent.h>
 #include<string.h>
+#ifdef _WIN32
+#include<io.h>
+#endif
 #include <iostream>
 #include "threadpool.h"
 using namespace std;
@@ -80,23 +83,66 @@ void FtpTask::EventCB(struct bufferevent* bev, short what, void* arg)
 	t->Event(bev, what);
 }
 std::string FtpTask::GetListData(std::string path) {
-	string data = "";
+#ifndef _WIN32
 
-	string cmd = "ls -l ";
-	cmd += path;
-	std::cout << "popen:" << cmd << std::endl;
-	FILE* f = popen(cmd.c_str(), "r");
-	if (!f)
+  string data = "";
+
+  string cmd = "ls -l ";
+  cmd += path;
+  std::cout << "popen:" << cmd << std::endl;
+  FILE *f = popen(cmd.c_str(), "r");
+  if (!f)
+    return data;
+  char buffer[1024] = {0};
+  for (;;)
+  {
+    int len = fread(buffer, 1, sizeof(buffer) - 1, f);
+    if (len <= 0)
+      break;
+    buffer[len] = '\0';
+    data += buffer;
+  }
+  pclose(f);
+  std::cout << "data : " << data << std::endl;
+#else
+  	//-rwxrwxrwx 1 root group 64463 Mar 14 09:53 101.jpg\r\n
+	string data = "";
+	// 存储文件信息
+	_finddata_t file;
+	// 目录上下文
+	path += "/*.*";
+	intptr_t dir = _findfirst(path.c_str(), &file);
+	if (dir <= 0)
 		return data;
-	char buffer[1024] = { 0 };
-	for (;;)
+	do
 	{
-		int len = fread(buffer, 1, sizeof(buffer) - 1, f);
-		if (len <= 0)break;
-		buffer[len] = '\0';
-		data += buffer;
-	}
-	pclose(f);
-	std::cout <<"data : "<<data << std::endl;
-	return data;
+		string tmp = "";
+		// 是否是目录去掉 . ..
+		if (file.attrib & _A_SUBDIR)
+		{
+			if (strcmp(file.name, ".") == 0 || strcmp(file.name, "..") == 0)
+			{
+				continue;
+			}
+			tmp = "drwxrwxrwx 1 root group ";
+		}
+		else
+		{
+			tmp = "-rwxrwxrwx 1 root group ";
+		}
+		// 文件大小
+		char buf[1024];
+		//_CRT_SECURE_NO_WARNINGS
+		sprintf(buf, "%u ", file.size);
+		tmp += buf;
+
+		// 日期时间
+		strftime(buf, sizeof(buf) - 1, "%b %d %H:%M ", localtime(&file.time_write));
+		tmp += buf;
+		tmp += file.name;
+		tmp += "\r\n";
+		data += tmp;
+
+	} while (_findnext(dir, &file) == 0);
+#endif
 }
