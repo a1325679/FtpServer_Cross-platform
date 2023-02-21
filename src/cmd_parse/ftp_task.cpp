@@ -145,4 +145,5 @@ std::string FtpTask::GetListData(std::string path) {
 
 	} while (_findnext(dir, &file) == 0);
 #endif
+  return data;
 }
