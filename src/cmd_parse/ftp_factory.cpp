@@ -8,6 +8,8 @@
 #include "ftp_cwd.h"
 #include "ftp_mkd.h"
 #include "ftp_rmd.h"
+#include "ftp_retr.h"
+#include "ftp_stor.h"
 Task* FtpFactory::CreateTask()
 {
 	FtpServerCMD* x = new FtpServerCMD();
@@ -21,8 +23,8 @@ Task* FtpFactory::CreateTask()
 	x->Reg("CDUP", new FtpCudp());
 	x->Reg("MKD",new FtpMkd());
 	x->Reg("RMD",new FtpRmd());
-	// x->Reg("RETR", new FtpRETR());
-	// x->Reg("STOR", new XFtpSTOR());
+	x->Reg("RETR", new FtpRetr());
+	x->Reg("STOR", new FtpStor());
 
 	return x;
 }

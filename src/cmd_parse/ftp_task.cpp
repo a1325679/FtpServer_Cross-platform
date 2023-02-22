@@ -27,8 +27,8 @@ void FtpTask::Close()
 	if (fp)
 	{
 		fclose(fp);
-		fp = 0;
-	}
+    fp = 0;
+  }
 }
 //连接数据通道
 void FtpTask::ConnectPORT()
