@@ -20,7 +20,7 @@ void FtpMkd::Parse(std::string type, std::string msg)
     ret = mkdir(name.c_str());
   }
 #else
-  int ret = mkdir(name.c_str(), 0777);
+  ret = mkdir(name.c_str(), 0777);
 #endif
   if (ret == -1)
   {
