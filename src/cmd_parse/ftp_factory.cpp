@@ -11,6 +11,8 @@
 #include "ftp_retr.h"
 #include "ftp_stor.h"
 #include "ftp_dele.h"
+#include "ftp_rnfr.h"
+#include "ftp_rnto.h"
 Task *FtpFactory::CreateTask()
 {
   FtpServerCMD *x = new FtpServerCMD();
@@ -27,6 +29,8 @@ Task *FtpFactory::CreateTask()
   x->Reg("RETR", new FtpRetr());
   x->Reg("STOR", new FtpStor());
   x->Reg("DELE", new FtpDele());
+  x->Reg("RNFR", new FtpRnfr());
+  x->Reg("RNTO", new FtpRnto());
   return x;
 }
 

@@ -59,13 +59,16 @@ static void ReadEvent(bufferevent* bev,void *arg)
 			t->ip = task->ip;
 			t->port = task->port;
 			t->base = task->base;
-			t->Parse(type, data);
-			if (type == "PORT")
+      t->moveFile = task->moveFile;
+      t->Parse(type, data);
+      if (type == "PORT")
 			{
 				task->ip = t->ip;
 				task->port = t->port;
-			}
-		}
+			}else if(type=="RNFR") {
+        task->moveFile = t->moveFile;
+      }
+    }
 		else
 		{
 			string msg = "200 OK\r\n";

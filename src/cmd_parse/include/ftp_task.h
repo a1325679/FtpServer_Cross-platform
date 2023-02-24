@@ -10,9 +10,9 @@ class FtpTask : public Task
 public:
 	std::string curDir = "/";
 	std::string rootDir = ".";
-
-	// PORT 数据通道的IP和端口
-	std::string ip = "";
+  std::string moveFile;
+  // PORT 数据通道的IP和端口
+  std::string ip = "";
 	int port = 0;
 
 	// 命令通道

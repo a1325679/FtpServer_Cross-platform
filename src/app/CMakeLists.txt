@@ -17,6 +17,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_rmd.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_retr.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_stor.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_dele.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_rnfr.cpp
+${CMAKE_CURRENT_SOURCE_DIR}/../cmd_parse/ftp_rnto.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../misc/log/log.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../misc/readconf/read_conf.cpp
 )
