@@ -56,7 +56,7 @@ void FtpTask::ConnectPORT()
 void FtpTask::ResCMD(string msg)
 {
 	if (!cmdTask || !cmdTask->bev)return;
-	cout << "ResCMD:" << msg << endl;
+	//cout << "ResCMD:" << msg << endl;
 	if (msg[msg.size() - 1] != '\n')
 		msg += "\r\n";
 	bufferevent_write(cmdTask->bev, msg.c_str(), msg.size());
@@ -89,7 +89,7 @@ std::string FtpTask::GetListData(std::string path) {
 
   string cmd = "ls -l ";
   cmd += path;
-  std::cout << "popen:" << cmd << std::endl;
+  //std::cout << "popen:" << cmd << std::endl;
   FILE *f = popen(cmd.c_str(), "r");
   if (!f)
     return data;
@@ -103,7 +103,7 @@ std::string FtpTask::GetListData(std::string path) {
     data += buffer;
   }
   pclose(f);
-  std::cout << "data : " << data << std::endl;
+  //std::cout << "data : " << data << std::endl;
 #else
   	//-rwxrwxrwx 1 root group 64463 Mar 14 09:53 101.jpg\r\n
 	string data = "";

@@ -6,6 +6,6 @@ typedef struct{
 	char ItemContent[500];
 }ConfItem,*LPConfItem;
 
-extern ThreadPool g_pool;
+extern ThreadPool *g_pool;
 
 #endif

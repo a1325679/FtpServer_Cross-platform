@@ -41,7 +41,7 @@ static void ReadEvent(bufferevent* bev,void *arg)
 		if (len <= 0)
 			break;
 		data[len] = '\0';
-		cout << "Recv CMD:" << data << flush;
+		//cout << "Recv CMD:" << data << flush;
 		// 分发到处理对象
 		// 分析出类型 USER anonymous
 		string type = "";
@@ -51,7 +51,7 @@ static void ReadEvent(bufferevent* bev,void *arg)
 				break;
 			type += data[i];
 		}
-		cout << "type is [" << type << "]" << endl;
+		//cout << "type is [" << type << "]" << endl;
 		if (task->calls.find(type) != task->calls.end())
 		{
 			FtpTask *t = task->calls[type];
@@ -60,6 +60,8 @@ static void ReadEvent(bufferevent* bev,void *arg)
 			t->port = task->port;
 			t->base = task->base;
       t->moveFile = task->moveFile;
+      t->ipaddr = task->ipaddr;
+      t->portFrom = task->portFrom;
       t->Parse(type, data);
       if (type == "PORT")
 			{
@@ -79,7 +81,7 @@ static void ReadEvent(bufferevent* bev,void *arg)
 
 void FtpServerCMD::Read(struct bufferevent *bev)
 {
-	g_pool.submitTask(ReadEvent, bev,this);
+	g_pool->submitTask(ReadEvent, bev,this);
 }
 void FtpServerCMD::Event(struct bufferevent *bev, short what)
 {
@@ -93,14 +95,10 @@ void FtpServerCMD::Event(struct bufferevent *bev, short what)
 // 初始化任务 运行在子线程中
 bool FtpServerCMD::Init()
 {
-	cout << "XFtpServerCMD::Init()" << endl;
+	//cout << "XFtpServerCMD::Init()" << endl;
 	// 监听socket bufferevent
 	//  base socket
 	bufferevent *bev = bufferevent_socket_new(base, sock, BEV_OPT_CLOSE_ON_FREE);
-	if (base)
-	{
-		std::cout << "base hello owrld" << std::endl;
-	}
 	if (!bev)
 	{
 		delete this;

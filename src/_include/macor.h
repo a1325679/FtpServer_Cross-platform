@@ -14,7 +14,7 @@
 
 #define myprintf(...) printf(__VA_ARGS__)
 
-#define log(level,str,...) MyLog::GetInstance()->Log(level,str,__VA_ARGS__) 
-
+#define log(level,str,...) MyLog::GetInstance()->Log(level,str,__VA_ARGS__)
+#define log_(level,str) MyLog::GetInstance()->Log(level,str)
 
 #endif
