@@ -39,7 +39,7 @@ void FtpTask::ConnectPORT()
 		return;
 	}
 	Close();
-	bev = bufferevent_socket_new(base, -1, BEV_OPT_CLOSE_ON_FREE);
+	bev = bufferevent_socket_new(base, -1, BEV_OPT_CLOSE_ON_FREE|BEV_OPT_THREADSAFE);
 	sockaddr_in sin;
 	memset(&sin, 0, sizeof(sin));
 	sin.sin_family = AF_INET;

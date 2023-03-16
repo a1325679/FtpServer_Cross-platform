@@ -20,7 +20,7 @@ void FtpRmd::Parse(std::string type, std::string msg)
   int head = msg.find(" ");
   // int back = temp.find("\r\n");
   std::string name = msg.substr(head + 1);
-  name = "." + cmdTask->curDir + "/" + name;
+  name = rootDir + cmdTask->curDir + "/" + name;
   log(NOTICE, "%s:%d %s:%d -> 解析命令%s,命令内容为%s", __FILE__, __LINE__, ipaddr.c_str(), portFrom, type.c_str(), name.c_str());
 
   int ret = rmdir(name.c_str());

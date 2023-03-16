@@ -6,8 +6,12 @@
 #include <event2/event.h>
 #include <functional>
 #include "global.h"
+#include <unistd.h>
 using namespace std;
-
+FtpStor::FtpStor() {}
+FtpStor::~FtpStor()
+{
+}
 // 解析协议
 void FtpStor::Parse(std::string type, std::string msg)
 {
@@ -25,7 +29,7 @@ void FtpStor::Parse(std::string type, std::string msg)
   path += cmdTask->curDir;
   path += "/";
   path += filename;
-  fp = fopen(path.c_str(), "wb");
+  fp = fopen(path.c_str(), "wb+");
   if (fp)
   {
     // 连接数据通道
@@ -54,24 +58,26 @@ void FtpStor::ReadWork(struct bufferevent *bev)
       return;
     int size = fwrite(buf, 1, len, fp);
     fflush(fp);
-    //cout << "WRITE BYTES :<" << len << ":" << size << ">" << flush;
+    cout << "WRITE BYTES :<" << len << ":" << len << ">" << flush;
   }
+  cout << "================================="
+       << "\n";
 }
 void FtpStor::EventWork(struct bufferevent *bev, short what)
 {
-  //std::cout << "call FtpSTRO Event WORK"
-  //          << "\n";
-  // 如果对方网络断掉，或者机器死机有可能收不到BEV_EVENT_EOF数据
+  // std::cout << "call FtpSTRO Event WORK"
+  //           << "\n";
+  //  如果对方网络断掉，或者机器死机有可能收不到BEV_EVENT_EOF数据
   if (what & (BEV_EVENT_EOF | BEV_EVENT_ERROR | BEV_EVENT_TIMEOUT))
   {
-    //cout << "XFtpSTOR BEV_EVENT_EOF | BEV_EVENT_ERROR |BEV_EVENT_TIMEOUT" << endl;
+    // cout << "XFtpSTOR BEV_EVENT_EOF | BEV_EVENT_ERROR |BEV_EVENT_TIMEOUT" << endl;
     log(NOTICE, "%s:%d %s:%d -> FtpSTOR BEV_EVENT_EOF | BEV_EVENT_ERROR |BEV_EVENT_TIMEOUT", __FILE__, __LINE__, ipaddr.c_str(), portFrom);
     Close();
     ResCMD("226 Transfer complete\r\n");
   }
   else if (what & BEV_EVENT_CONNECTED)
   {
-    //cout << "XFtpSTOR BEV_EVENT_CONNECTED" << endl;
+    // cout << "XFtpSTOR BEV_EVENT_CONNECTED" << endl;
     log(NOTICE, "%s:%d %s:%d -> FtpSTOR BEV_EVENT_CONNECTED", __FILE__, __LINE__, ipaddr.c_str(), portFrom);
   }
 }

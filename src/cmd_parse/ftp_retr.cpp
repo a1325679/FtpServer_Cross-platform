@@ -23,19 +23,19 @@ void FtpRetr::WriteWork(struct bufferevent *bev)
     return;
   }
 
-  cout << "[" << len << "]" << flush;
+  //cout << "[" << len << "]" << flush;
   Send(buf, len);
 }
 void FtpRetr::EventWork(struct bufferevent *bev, short what)
 {
   if (what & (BEV_EVENT_EOF | BEV_EVENT_ERROR | BEV_EVENT_TIMEOUT))
   {
-    cout << "BEV_EVENT_EOF | BEV_EVENT_ERROR |BEV_EVENT_TIMEOUT" << endl;
+    //cout << "BEV_EVENT_EOF | BEV_EVENT_ERROR |BEV_EVENT_TIMEOUT" << endl;
     Close();
   }
   else if (what & BEV_EVENT_CONNECTED)
   {
-    cout << "XFtpRETR BEV_EVENT_CONNECTED" << endl;
+    //cout << "XFtpRETR BEV_EVENT_CONNECTED" << endl;
   }
 }
 void FtpRetr::Write(struct bufferevent *bev)
@@ -63,6 +63,7 @@ void FtpRetr::Parse(std::string type, std::string msg)
   path += cmdTask->curDir;
   path += "/";
   path += filename;
+  std::cout << path << std::endl;
   fp = fopen(path.c_str(), "rb+");
   if (fp)
   {

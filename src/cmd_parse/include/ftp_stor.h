@@ -12,8 +12,10 @@ public:
 
   void ReadWork(struct bufferevent *bev);
   void EventWork(struct bufferevent *bev, short what);
+  FtpStor();
+  ~FtpStor();
 
 private:
   FILE *fp = 0;
-  char buf[1024] = {0};
+  char buf[4096] = {0};
 };

@@ -23,7 +23,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../misc/log/log.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/../misc/readconf/read_conf.cpp
 )
 # 指定可执行文件链接时需要依赖的库文件
-target_link_libraries(FtpServer event pthread threadpool)
+target_link_libraries(FtpServer event pthread threadpool event_pthreads)
 if(WIN32)
 	target_link_libraries(FtpServer Iphlpapi.lib event_extra event_core ws2_32)
 endif()

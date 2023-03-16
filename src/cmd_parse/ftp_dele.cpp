@@ -21,12 +21,13 @@ void FtpDele::Parse(std::string type, std::string msg)
   log(NOTICE, "%s:%d %s:%d -> 解析命令%s,命令内容为%s", __FILE__, __LINE__, ipaddr.c_str(), portFrom, type.c_str(), msg.c_str());
 
   int pos = msg.find(" ");
-  std::string file_name = msg.substr(pos + 1, msg.size() - pos - 1);
-  if (cmdTask->curDir != "/")
-  {
-    std::string k = cmdTask->curDir.substr(1);
-    file_name = k + "/" + file_name;
-  }
+  std::string file_name = rootDir + cmdTask->curDir+"/"+ msg.substr(pos + 1);
+  // std::string file_name = msg.substr(pos + 1, msg.size() - pos - 1);
+  // if (cmdTask->curDir != "/")
+  // {
+  //   std::string k = cmdTask->curDir.substr(1);
+  //   file_name = k + "/" + file_name;
+  // }
   if (remove(file_name.c_str()) == 0)
   {
     // printf("Removed %s.", file_name.c_str());

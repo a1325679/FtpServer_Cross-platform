@@ -18,7 +18,7 @@ void FtpMkd::Parse(std::string type, std::string msg)
     msg.pop_back();
   }
   int head = msg.find(" ");
-  std::string name = "." + cmdTask->curDir+"/"+ msg.substr(head + 1);
+  std::string name = rootDir + cmdTask->curDir+"/"+ msg.substr(head + 1);
   log(NOTICE, "%s:%d %s:%d -> 解析命令%s,命令内容为%s", __FILE__, __LINE__, ipaddr.c_str(), portFrom, type.c_str(), name.c_str());
 
   int ret;

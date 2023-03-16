@@ -22,11 +22,12 @@ void FtpRnfr::Parse(std::string type, std::string msg)
 
   int pos = msg.find(" ");
   std::string file_name = msg.substr(pos + 1);
-  if (cmdTask->curDir != "/")
-  {
-    std::string k = cmdTask->curDir.substr(1);
-    file_name = k + "/" + file_name;
-  }
+  // if (cmdTask->curDir != "/")
+  // {
+  //   std::string k = cmdTask->curDir.substr(1);
+  //   file_name = k + "/" + file_name;
+  // }
+  file_name = rootDir + curDir + file_name;
   moveFile = file_name;
   std::cout << "FTPRNFT  moveFile : " << moveFile << std::endl;
   ResCMD("200 OK.");

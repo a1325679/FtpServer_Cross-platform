@@ -96,20 +96,6 @@ bool MyLog::Log(int level, const char *fmt, ...)
   const char *s = err_levels[level];
   std::string errlevel = "[" + (std::string)s + "] ";
   str += errlevel;
-
-  // if (type == "ProcessID")
-  // {
-  //   pid_t pidnum = getpid();
-  //   char c[8];
-  //   sprintf(c, "%d: ", (int)pidnum);
-  //   str += c;
-  // }
-  // else if(type == "Locate")
-  // {
-  //   char c[1024];
-  //   sprintf(c, "%s:%d: ", __FILE__, __LINE__);
-  //   str += c;
-  // }
 #endif
 
   char errstr[MAX_ERROR_STR + 1];
