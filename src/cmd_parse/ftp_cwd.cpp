@@ -18,16 +18,17 @@ void FtpCwd::Parse(std::string type, std::string msg)
   int pos = msg.rfind(" ") + 1;
   // 去掉结尾的\r\n
   string path = msg.substr(pos, msg.size() - pos);
-  if (path[0] == '/') // 局对路径
-  {
-    cmdTask->curDir = path;
-  }
-  else
-  {
-    if (cmdTask->curDir[cmdTask->curDir.size() - 1] != '/')
-      cmdTask->curDir += "/";
-    cmdTask->curDir += path + "/";
-  }
+  cmdTask->curDir = path+"/";
+  std::cout<<"============================="<<path<<std::endl;
+  // if (path[0] == '/') // 局对路径
+  //   cmdTask->curDir = path;
+  // }
+  // else
+  // {
+  //   if (cmdTask->curDir[cmdTask->curDir.size() - 1] != '/')
+  //     cmdTask->curDir += "/";
+  //   cmdTask->curDir += path + "/";
+  // }
   //  /test/
   ResCMD("250 Directory succes chanaged.\r\n");
 
