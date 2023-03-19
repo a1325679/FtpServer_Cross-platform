@@ -24,7 +24,7 @@ void FtpRnto::Parse(std::string type, std::string msg)
 
   int pos = msg.find(" ");
   std::string file_name = msg.substr(pos + 1);
-  file_name = rootDir + curDir + file_name;
+  file_name = rootDir + file_name;
   // if (file_name[0] == '/')
   // {
   //   file_name = file_name.substr(1);
