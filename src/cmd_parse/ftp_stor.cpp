@@ -38,7 +38,8 @@ void FtpStor::Parse(std::string type, std::string msg)
     // 发送开始接收文件的指令
     ResCMD("125 File OK\r\n");
     // 触发读取事件
-    bufferevent_trigger(bev, EV_READ, 0);
+    //bufferevent_trigger(bev, EV_READ, 0);
+    //usleep(500 * 1000);
   }
   else
   {
@@ -47,8 +48,9 @@ void FtpStor::Parse(std::string type, std::string msg)
 }
 void FtpStor::ReadWork(struct bufferevent *bev)
 {
-  // std::cout << "call FtpSTRO READ WORK"
-  //           << "\n";
+  std::cout << "call FtpSTRO READ WORK"
+            << "\n";
+  //bufferevent_disable(bev,EV_READ);
   if (!fp)
     return;
   for (;;)
@@ -58,8 +60,9 @@ void FtpStor::ReadWork(struct bufferevent *bev)
       return;
     int size = fwrite(buf, 1, len, fp);
     fflush(fp);
-    cout << "WRITE BYTES :<" << len << ":" << len << ">" << flush;
+    cout << "WRITE BYTESSSSSSSSSS :<" << len << ":" << len << ">" << flush;
   }
+  //bufferevent_enable(bev,EV_READ);
   cout << "================================="
        << "\n";
 }
@@ -83,11 +86,13 @@ void FtpStor::EventWork(struct bufferevent *bev, short what)
 }
 void FtpStor::Read(struct bufferevent *bev)
 {
-  function<void(FtpStor *, bufferevent *)> obj = bind(&FtpStor::ReadWork, this, bev);
-  g_pool->submitTask(obj, this, bev);
+  //function<void(FtpStor *, bufferevent *)> obj = bind(&FtpStor::ReadWork, this, bev);
+  //g_pool->submitTask(obj, this, bev);
+  ReadWork(bev);
 }
 void FtpStor::Event(struct bufferevent *bev, short what)
 {
-  function<void(FtpStor *, bufferevent *, short)> obj = bind(&FtpStor::EventWork, this, bev, what);
-  g_pool->submitTask(obj, this, bev, what);
+  //function<void(FtpStor *, bufferevent *, short)> obj = bind(&FtpStor::EventWork, this, bev, what);
+  //g_pool->submitTask(obj, this, bev, what);
+  EventWork(bev, what);
 }

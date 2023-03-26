@@ -1,3 +1,6 @@
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <event2/bufferevent.h>
 #include <event2/event.h>
 #include <event2/listener.h> //libevent头文件
@@ -15,14 +18,18 @@
 #include "ftp_factory.h"
 #include "global.h"
 #include "func.h"
+#include "threadpool2.h"
 using namespace std;
 
 #define SPORT 8080
+
+
 ThreadPool *g_pool = new ThreadPool();
 void listen_cb(struct evconnlistener *e, evutil_socket_t s, struct sockaddr *a, int socklen, void *arg)
 {
   event_base *base = (event_base *)arg;
-  Task *task = FtpFactory::Get()->CreateTask();
+  //Task *task = FtpFactory::Get()->CreateTask();
+  XTask* task = FtpFactory::Get()->CreateTask();
   task->sock = s;
   task->base = base;
 
@@ -39,20 +46,40 @@ void listen_cb(struct evconnlistener *e, evutil_socket_t s, struct sockaddr *a, 
 #endif
   task->ipaddr = str;
   task->portFrom = port;
-  
-  if (!task->Init())
-  {
-    log(NOTICE, "Locate", "%s : %d 初始化失败", str, port);
-    return;
-  }
+  XThreadPool::Get()->Dispatch(task);
   log(NOTICE, "%s:%d %s:%d 已连接", __FILE__, __LINE__, task->ipaddr.c_str(), task->portFrom);
 
 }
 int main()
 {
-  g_pool->start(50);
-// pool.setMode(PoolMode::MODE_CACHED);
-// 创建libevent的上下文
+
+  Config *p_config = Config::GetInstance(); // 单例类
+  if (p_config->Load("conf.conf") == false) // 把配置文件内容载入到内存
+  {
+    log(ERRORS,"%d Config Load failed !",getpid());
+  }
+  std::string log_path = p_config->GetString("Log");
+  if (!MyLog::GetInstance()->Init(log_path.c_str()))
+  {
+    log(ERRORS, "Locate", "Config Load failed ! %s:%d", __FILE__, __LINE__);
+    exit(1);
+  }
+  if (p_config->GetIntDefault("Daemon", 0) == 1) {
+    // 1：按守护进程方式运行
+    int cdaemonresult = ftp_daemon();
+    if (cdaemonresult == -1) // fork()失败
+    {
+      return 0;
+    }
+    if (cdaemonresult == 1)
+    {
+      return 0;
+    }
+  }
+
+  int thread_count = p_config->GetIntDefault("WorkThreadCount", 5);
+  XThreadPool::Get()->Init(thread_count);
+  log(NOTICE, "%d个线程已初始化完成", thread_count);
 #if _WIN32
   WSADATA wsa;
   WSAStartup(MAKEWORD(2, 2), &wsa);
@@ -60,24 +87,15 @@ int main()
 #else
   evthread_use_pthreads();
 #endif
+
   event_base *base = event_base_new();
   if (!base)
   {
     log(ERRORS,"%s:%d even_base create failed! %s:%d", __FILE__, __LINE__);
   }
-
-  Config *p_config = Config::GetInstance(); // 单例类
-  if (p_config->Load("conf.conf") == false) // 把配置文件内容载入到内存
-  {
-    log(ERRORS,"%d Config Load failed !",getpid());
-  }
-  if (!MyLog::GetInstance()->Init("../log/error.log"))
-  {
-    std::cout << "Log init failed !" << std::endl;
-    log(ERRORS, "Locate", "Config Load failed ! %s:%d", __FILE__, __LINE__);
-    exit(1);
-  }
-  g_pool->submitTask(MyLog::PrintLogsThread, MyLog::GetInstance());
+  //g_pool->submitTask(MyLog::PrintLogsThread,MyLog::GetInstance());
+  thread t(MyLog::PrintLogsThread, MyLog::GetInstance());
+  t.detach();
   InitSignal();
   unsigned short port = p_config->GetIntDefault("ListenPort0", 9090);
   std::string root_path = p_config->GetString("RootPath");

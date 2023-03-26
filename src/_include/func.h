@@ -5,4 +5,7 @@ void Ltrim(char *str);
 bool InitSignal();
 bool LogSignal();
 void ClearWork();
+
+int ftp_daemon();
+
 #endif

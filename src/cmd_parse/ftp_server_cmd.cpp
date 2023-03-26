@@ -81,7 +81,8 @@ static void ReadEvent(bufferevent* bev,void *arg)
 
 void FtpServerCMD::Read(struct bufferevent *bev)
 {
-	g_pool->submitTask(ReadEvent, bev,this);
+	//g_pool->submitTask(ReadEvent, bev,this);
+  ReadEvent(bev, this);
 }
 void FtpServerCMD::Event(struct bufferevent *bev, short what)
 {

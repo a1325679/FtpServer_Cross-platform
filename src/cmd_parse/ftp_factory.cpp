@@ -13,7 +13,7 @@
 #include "ftp_dele.h"
 #include "ftp_rnfr.h"
 #include "ftp_rnto.h"
-Task *FtpFactory::CreateTask()
+XTask *FtpFactory::CreateTask()
 {
   FtpServerCMD *x = new FtpServerCMD();
 

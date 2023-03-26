@@ -40,13 +40,15 @@ void FtpRetr::EventWork(struct bufferevent *bev, short what)
 }
 void FtpRetr::Write(struct bufferevent *bev)
 {
-  function<void(FtpRetr *, bufferevent *)> obj = bind(&FtpRetr::WriteWork, this, bev);
-  g_pool->submitTask(obj, this, bev);
+  //function<void(FtpRetr *, bufferevent *)> obj = bind(&FtpRetr::WriteWork, this, bev);
+  //g_pool->submitTask(obj, this, bev);
+  WriteWork(bev);
 }
 void FtpRetr::Event(struct bufferevent *bev, short what)
 {
-  function<void(FtpRetr *, bufferevent *, short)> obj = bind(&FtpRetr::EventWork, this, bev, what);
-  g_pool->submitTask(obj, this, bev, what);
+  //function<void(FtpRetr *, bufferevent *, short)> obj = bind(&FtpRetr::EventWork, this, bev, what);
+  //g_pool->submitTask(obj, this, bev, what);
+  EventWork(bev, what);
 }
 void FtpRetr::Parse(std::string type, std::string msg)
 {

@@ -122,6 +122,7 @@ void MyLog::PrintLogsThread(void *args)
     if (t->IsEmptyMessageQueue())
     {
       this_thread::sleep_for(1s);
+      printf("========sdfsfd\n");
     }
     else
     {

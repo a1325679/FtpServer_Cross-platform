@@ -31,13 +31,15 @@ void FtpList::EventWork(struct bufferevent *bev, short what)
 }
 void FtpList::Write(struct bufferevent *bev)
 {
-  function<void(FtpList *, bufferevent *)> obj = bind(&FtpList::WriteWork, this, bev);
-  g_pool->submitTask(obj, this, bev);
+  //function<void(FtpList *, bufferevent *)> obj = bind(&FtpList::WriteWork, this, bev);
+  //g_pool->submitTask(obj, this, bev);
+  WriteWork(bev);
 }
 void FtpList::Event(struct bufferevent *bev, short what)
 {
-  function<void(FtpList *, bufferevent *, short)> obj = bind(&FtpList::EventWork, this, bev, what);
-  g_pool->submitTask(obj, this, bev, what);
+  //function<void(FtpList *, bufferevent *, short)> obj = bind(&FtpList::EventWork, this, bev, what);
+  //g_pool->submitTask(obj, this, bev, what);
+  EventWork(bev, what);
 }
 void FtpList::Parse(std::string type, std::string msg)
 {

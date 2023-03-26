@@ -1,6 +1,6 @@
 #ifndef _FTP_FACTORY_H
 #define _FTP_FACTORY_H
-#include "task.h"
+#include "xtask.h"
 class FtpFactory
 {
 public:
@@ -9,7 +9,7 @@ public:
 		static FtpFactory f;
 		return &f;
 	}
-	Task* CreateTask();
+	XTask* CreateTask();
 private:
 	FtpFactory();
 };

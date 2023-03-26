@@ -3,9 +3,9 @@
 
 #include "task.h"
 #include <string>
-
+#include "xtask.h"
 struct bufferevent;
-class FtpTask : public Task
+class FtpTask : public XTask
 {
 public:
 	std::string curDir = "/";
